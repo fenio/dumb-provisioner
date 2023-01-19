@@ -36,6 +36,7 @@ add address=10.10.20.96/28 boot-file-name=bootx64.efi dns-server=10.10.20.97 gat
 
 Again adapt it to your network configuration.
 
-
+Then just upload content of this repot to the pxe directory on your Mikrotik device.
+And you're all set.
 
 
