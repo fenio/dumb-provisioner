@@ -7,5 +7,5 @@ This repo has solution for that.
 
 Now all I have to do is `ssh root@IP reinstall.sh` and magic is happening.
 
-Do a copy of this repo and run `./pxe 
+Do a copy of this repo and run `./pxe.sh
 
