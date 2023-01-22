@@ -1,1 +1,3 @@
 linux
+initrd.gz
+bootx64.efi
