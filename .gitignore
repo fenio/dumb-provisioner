@@ -1,4 +1,5 @@
-linux
-initrd.gz
-bootx64.efi
+pxe/linux
+pxe/initrd.gz
+pxe/bootx64.efi
+pxe/grub/x86_64-efi/
 netboot/*
