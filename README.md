@@ -35,12 +35,14 @@ Of course you can use software solutions instead.
 
 ### What's rationale behind it?
 
-Well I've got 3 Dell Wyse terminals for my homelab. And since it's homelab then from time to time I need to reinstall everything from scratch which means I have to connect keyboard and monitor to all below three nodes. 
+Well I've got 3 Dell Wyse terminals for my homelab. And since it's homelab then from time to time I need to reinstall everything from scratch which means I have to connect keyboard and monitor to all three nodes. 
 I was tired of it. Now all I have to do is `ssh root@nodeX ./reinstall.sh`
 
 ![lab](IMG_0891.jpeg)
 
+### Wait what? 
 
+Configuration included in this repo will not only install these nodes but also tools from Dell that allows to change BIOS/UEFI settings from Linux system.
 
 
 
