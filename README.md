@@ -33,6 +33,14 @@ DHCP & TFTP:
 So all files from pxe/ directory needs to be copied into pxe/ directory on the router.
 Of course you can use software solutions instead. 
 
+### What's rationale behind it?
+
+Well I've got 3 Dell Wyse terminals for my homelab. And since it's homelab then from time to time I need to reinstall everything from scratch which means I have to connect keyboard and monitor to all below three nodes. 
+I was tired of it. Now all I have to do is `ssh root@nodeX ./reinstall.sh`
+
+![lab](IMG_0891.jpeg)
+
+
 
 
 
