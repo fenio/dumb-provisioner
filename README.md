@@ -2,11 +2,20 @@
 
 ### What's that?
 
-Just a basic script and set of configs that will help you boot/install Wyse terminals with the Debian stable over network.
+Just a basic script and set of config files that will help you boot/install Wyse terminals with the Debian stable over network.
+
+### Why didn't you use foreman/packer/<whatever>?
+
+It was just overkill for my needs. Also such tools assume you have IPMI/ILO or other advanced BMC management in your hw.
+It's not the case with Wyse terminals. But I managed to force them to autoboot from network ;)
 
 ### What exactly is pxe.sh doing?
 
 It downloads the netboot tarball, extracts kernel/initrd and creates boot image.
+And it keeps all relevant files in pxe/ subdirectory.
+
+Except installing fresh Debian system it also creates/modifies some files to make that machine more capable of being k8s node.
+Take a look at node.cfg file. Especially end of it.
 
 ### How to use it?
 
@@ -43,6 +52,5 @@ I was tired of it. Now all I have to do is `ssh root@nodeX ./reinstall.sh`
 ### Wait what? 
 
 Configuration included in this repo will not only install these nodes but also tools from Dell that allows to change BIOS/UEFI settings from Linux system.
-
-
+So yeah after you invoke ./reinstall.sh on node it will reboot and try to boot from network automatically.
 
