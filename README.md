@@ -3,18 +3,20 @@
 ### What's that?
 
 Just a basic script and set of config files that will help you boot/install Wyse terminals with the Debian stable over network.
+Ok now I'm also using it for installing VMs in my homelab so it can be used for other purposes.
 
-### Why didn't you use foreman/packer/<whatever>?
+### Why didn't you use foreman/packer/\<whatever\>?
 
-It was just overkill for my needs. Also such tools assume you have IPMI/ILO or other advanced BMC management in your hw.
+It was just overkill for my needs. Also such tools assume you have IPMI/ILO or other advanced BMC management in your HW.
 It's not the case with Wyse terminals. But I managed to force them to autoboot from network ;)
 
 ### What exactly is pxe.sh doing?
 
 It downloads the netboot tarball, extracts kernel/initrd and creates boot image.
 And it keeps all relevant files in pxe/ subdirectory.
+It should be run from Debian system... well Ubuntu should probably work too.
 
-Except installing fresh Debian system it also creates/modifies some files to make that machine more capable of being k8s node.
+Final solution should install fresh Debian system and create/modify some files to make that machine more capable of being k8s node.
 Take a look at node.cfg file. Especially end of it.
 
 ### How to use it?
