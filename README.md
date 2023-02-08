@@ -2,17 +2,20 @@
 
 ### What's that?
 
-Just a basic script and set of config files that will help you boot/install Wyse terminals with the Debian stable over network.
-Ok now I'm also using it for installing VMs in my homelab so it can be used for other purposes.
+Just a basic script and set of config files that will help you generate files needed to boot/install Wyse terminals with the Debian stable over network.
+Ok now I'm also using it for installing VMs in my homelab so it can be used for other purposes as well.
 
 ### Why didn't you use foreman/packer/\<whatever\>?
 
 It was just overkill for my needs. Also such tools assume you have IPMI/ILO or other advanced BMC management in your HW.
-It's not the case with Wyse terminals. But I managed to force them to autoboot from network ;)
+It's not the case with Wyse terminals. But I found a way to force them to netboot from working Linux system.
+
+Also. While there are plenty of guides to make your own netbooting/bootstrapping I found that majority of them use legacy/BIOS and solutions like pxelinux and while I was experimenting with them I found them really unreliable.
+So if you're trying to boot UEFI based systems do NOT try to do this with pxelinux. They say they support it but it's really poor and buggy support. Don't waste time like me and go straigh to the grub based solutions. 
 
 ### What exactly is pxe.sh doing?
 
-It downloads the netboot tarball, extracts kernel/initrd and creates boot image.
+It downloads the netboot tarball, extracts kernel/initrd and creates boot image based on grub bootloader.
 And it keeps all relevant files in pxe/ subdirectory.
 It should be run from Debian system... well Ubuntu should probably work too.
 
@@ -42,7 +45,11 @@ DHCP & TFTP:
     set max-block-size=8192
 
 So all files from pxe/ directory needs to be copied into pxe/ directory on the router.
-Of course you can use software solutions instead. 
+You should probably change MAC adresses in grub.cfg.
+
+### I don't have Mikrotik router.
+
+You can use software equivalents instead. Some DHCP server and some TFTP server.
 
 ### What's rationale behind it?
 
@@ -53,6 +60,6 @@ I was tired of it. Now all I have to do is `ssh root@nodeX ./reinstall.sh`
 
 ### Wait what? 
 
-Configuration included in this repo will not only install these nodes but also tools from Dell that allows to change BIOS/UEFI settings from Linux system.
-So yeah after you invoke ./reinstall.sh on node it will reboot and try to boot from network automatically.
+Configuration included in this repo will not only install these nodes but also tools from Dell that allows to change UEFI boot settings from Linux system.
+So yeah after you invoke ./reinstall.sh on node it will reconfigure UEFI and try to boot from network automatically.
 
