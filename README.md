@@ -3,7 +3,7 @@
 ### What's that?
 
 Just a basic script and set of config files that will help you generate files needed to boot/install Wyse terminals with the Debian stable over network.
-Ok now I'm also using it for installing VMs in my homelab so it can be used for other purposes as well.
+Well now I'm also using it for installing VMs in my homelab so it can be used for other purposes as well.
 
 ### Why didn't you use foreman/packer/\<whatever\>?
 
@@ -11,7 +11,7 @@ It was just overkill for my needs. Also such tools assume you have IPMI/ILO or o
 It's not the case with Wyse terminals. But I found a way to force them to netboot from working Linux system.
 
 Also. While there are plenty of guides to make your own netbooting/bootstrapping I found that majority of them use legacy/BIOS and solutions like pxelinux and while I was experimenting with them I found them really unreliable.
-So if you're trying to boot UEFI based systems do NOT try to do this with pxelinux. They say they support it but it's really poor and buggy support. Don't waste time like me and go straigh to the grub based solutions. 
+So if you're trying to boot UEFI based systems do NOT try to do this with pxelinux. They say they support it but it's really poor and buggy support. Don't waste time like me and go straight to the grub2 based solutions. 
 
 ### What exactly is pxe.sh doing?
 
@@ -29,23 +29,45 @@ In my case it's Mikrotik router with below configuration:
 
 DHCP & TFTP:
 
-    [admin@Mikrotik] /ip> export
-    # jan/25/2023 18:05:26 by RouterOS 7.7
-    /ip pool
-    add name=dhcp_lab ranges=10.10.20.105-10.10.20.110
-    /ip dhcp-server
-    add address-pool=dhcp_lab interface=bridge_lab name=dhcp_lab
-    /ip address
-    add address=10.10.20.97/28 comment=LAB interface=bridge_lab network=10.10.20.96
-    /ip dhcp-server network
-    add address=10.10.20.96/28 boot-file-name=bootx64.efi dns-server=10.10.20.97 gateway=10.10.20.97 netmask=28 next-server=10.10.20.97
-    /ip tftp
-    add ip-addresses=10.10.20.96/28 real-filename=pxe/
-    /ip tftp settings
-    set max-block-size=8192
+```
+/interface bridge
+add comment=LAB name=bridge_lab protocol-mode=none
+/interface list
+add name=lab
+/ip pool
+add name=dhcp_lab ranges=10.10.20.105-10.10.20.110
+/ip dhcp-server
+add address-pool=dhcp_lab bootp-support=dynamic interface=bridge_lab lease-time=10m name=dhcp_lab
+/interface bridge port
+add bridge=bridge_lab ingress-filtering=no interface=ether6
+add bridge=bridge_lab ingress-filtering=no interface=ether7
+add bridge=bridge_lab ingress-filtering=no interface=ether8
+add bridge=bridge_lab ingress-filtering=no interface=ether9
+add bridge=bridge_lab ingress-filtering=no interface=ether10
+/interface list member
+add interface=ether6 list=lab
+add interface=ether7 list=lab
+add interface=ether8 list=lab
+add interface=ether9 list=lab
+add interface=ether10 list=lab
+/ip address
+add address=10.10.20.97/28 comment=LAB interface=bridge_lab network=10.10.20.96
+/ip dhcp-server
+add address-pool=dhcp_vlan interface=*21 lease-time=10m name=dhcp_vlan
+/ip dhcp-server network
+add address=10.10.20.96/28 boot-file-name=pxe/bootx64.efi dns-server=10.10.20.97 gateway=10.10.20.97 netmask=28 next-server=10.10.20.97
+/ip tftp
+add ip-addresses=10.10.20.96/28 real-filename=pxe/bootx64.efi req-filename=bootx64.efi
+add ip-addresses=10.10.20.96/28 real-filename=pxe/linux req-filename=linux
+add ip-addresses=10.10.20.96/28 real-filename=pxe/initrd.gz req-filename=initrd.gz
+add ip-addresses=10.10.20.96/28 real-filename=pxe/master.cfg req-filename=master.cfg
+add ip-addresses=10.10.20.96/28 real-filename=pxe/node.cfg req-filename=node.cfg
+/ip tftp settings
+set max-block-size=8192
+```
 
 So all files from pxe/ directory needs to be copied into pxe/ directory on the router.
-You should probably change MAC adresses in grub.cfg.
+You should change MAC adresses in grub.cfg.
 
 ### I don't have Mikrotik router.
 
