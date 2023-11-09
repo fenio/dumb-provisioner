@@ -57,11 +57,11 @@ add address-pool=dhcp_vlan interface=*21 lease-time=10m name=dhcp_vlan
 /ip dhcp-server network
 add address=10.10.20.96/28 boot-file-name=pxe/bootx64.efi dns-server=10.10.20.97 gateway=10.10.20.97 netmask=28 next-server=10.10.20.97
 /ip tftp
-add ip-addresses=10.10.20.96/28 real-filename=pxe/bootx64.efi req-filename=bootx64.efi
-add ip-addresses=10.10.20.96/28 real-filename=pxe/linux req-filename=linux
-add ip-addresses=10.10.20.96/28 real-filename=pxe/initrd.gz req-filename=initrd.gz
-add ip-addresses=10.10.20.96/28 real-filename=pxe/master.cfg req-filename=master.cfg
-add ip-addresses=10.10.20.96/28 real-filename=pxe/node.cfg req-filename=node.cfg
+add allow-rollover=yes ip-addresses=10.10.20.96/28 real-filename=pxe/bootx64.efi req-filename=bootx64.efi
+add allow-rollover=yes ip-addresses=10.10.20.96/28 real-filename=pxe/linux req-filename=linux
+add allow-rollover=yes ip-addresses=10.10.20.96/28 real-filename=pxe/initrd.gz req-filename=initrd.gz
+add allow-rollover=yes ip-addresses=10.10.20.96/28 real-filename=/pxe/master.cfg req-filename=.*/master.cfg
+add allow-rollover=yes ip-addresses=10.10.20.96/28 real-filename=/pxe/node.cfg req-filename=.*/node.cfg
 /ip tftp settings
 set max-block-size=8192
 ```
